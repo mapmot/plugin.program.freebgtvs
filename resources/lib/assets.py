@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-import os, sys, gzip, urllib2
+import os, sys, gzip, urllib.request, urllib.error, urllib.parse
 
 ### Basic class to download assets on a give time interval
 ### If download fails, and the old file doesn't exist
@@ -48,14 +48,14 @@ class Assets:
         return False
       else: #file does not exist, perhaps first run
         return True
-    except Exception, er:
+    except Exception as er:
       self.log(str(er), 4)
       return True
 
   def get_asset(self):
     try:
       self.log('Downloading assets from url: %s' % self.url)
-      f = urllib2.urlopen(self.url)
+      f = urllib.request.urlopen(self.url)
       with open(self.file, "wb") as code:
         code.write(f.read())
         self.log("Saved in %s" % self.file)

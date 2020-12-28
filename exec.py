@@ -7,14 +7,14 @@ import xbmcgui
 import sqlite3
 import xbmcaddon
 from ga import ga
-from urllib import quote
+from urllib.parse import quote
 from resources.lib.playlist import *
 from resources.lib.utils import *
 
       
 def show_progress(percent, msg):
   if c_debug or is_manual_run:
-    heading = name.encode('utf-8') + ' ' + str(percent) + '%'
+    heading = name + ' ' + str(percent) + '%'
     dp.update(percent, heading, msg)
     log(msg)
 
@@ -100,13 +100,13 @@ for row in cursor:
     if s.url is None:
       log('Не е намерен валиден поток за канал %s ' % name)
     else:
-      c.static_playpath = STREAM_URL % quote(name.encode("utf-8"))
+      c.static_playpath = STREAM_URL % quote(name)
       c.static_playpath += '|User-agent=%s' % s.user_agent
       c.static_playpath += '&Referer=%s' % s.player_url
       c.playpath = s.url
       pl.channels.append(c)
-      pl_json[name.encode("utf-8")] = s.url
-  except Exception, er:
+      pl_json[name] = s.url
+  except Exception as er:
     log('Грешка при търсене на поток за канал %s ' % name)
     log_last_exception()
       
@@ -120,8 +120,8 @@ pl.save(profile_dir, False)
 # Save JSON playlist
 try:
   log('Записване на JSON плейлиста в %s' % pl_json_path, 4)
-  with open(pl_json_path, 'w') as w:
-    w.write(json.dumps(pl_json, ensure_ascii=False).encode('utf8'))
+  with open(pl_json_path, 'w', encoding="utf-8") as w:
+    w.write(json.dumps(pl_json, ensure_ascii=False))
 except:
   log('Грешка при записване на плейлиста в JSON формат %s' % pl_json_path, 2)
   log_last_exception()

@@ -2,9 +2,9 @@
 import os
 import re
 import requests
-from utils import *
-from urllib import unquote
-from bottle import route, default_app, request, HTTPResponse
+from .utils import *
+from urllib.parse import unquote
+from .bottle import route, default_app, request, HTTPResponse
 
 __DEBUG__ = os.environ.get('TVBGPVRDEBUG')
 app       = default_app()

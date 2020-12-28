@@ -8,9 +8,9 @@ import json
 import time
 import requests
 from kodibgcommon.utils import *
+import importlib
 
-reload(sys)  
-sys.setdefaultencoding('utf8')
+importlib.reload(sys)  
 
 class Playlist:
   name = 'playlist.m3u'
@@ -28,7 +28,7 @@ class Playlist:
     log("Запазване на плейлистата: %s " % file_path, 2)
     if os.path.exists(path):
       with open(file_path, 'w') as f:
-        f.write(self.to_string(static).encode('utf-8', 'replace'))
+        f.write(self.to_string(static))
   
   def concat(self, new_m3u, append = True, raw = True):
     if raw: #TODO implement parsing playlists
@@ -101,7 +101,7 @@ class Stream:
   def resolve(self):
     stream = None
     s = requests.session()
-    headers = {'User-agent': self.user_agent, 'Referer':self.page_url}
+    headers = {'User-agent': self.user_agent.encode('utf-8'), 'Referer':self.page_url.encode('utf-8')}
     
     # If btv - custom dirty fix to force login
     if self.channel_id == 2:
@@ -115,7 +115,7 @@ class Stream:
 
     self.player_url = self.player_url.replace("{timestamp}", str(time.time() * 100))
     log(self.player_url, 2)
-    r = s.get(self.player_url, headers=headers)
+    r = s.get(self.player_url, headers=headers, verify=True)
     #log("Body before replacing escape backslashes: " + r.text, 4)
     body = r.text.replace('\\/', '/').replace("\\\"", "\"")
     #log("Body after replacing escape backslashes: " + body, 4)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from kodibgcommon.utils import *
-from assets import Assets
+from .assets import Assets
 
 id             = get_addon_id()
 name           = get_addon_name()
@@ -41,5 +41,5 @@ def get_stream_url(name):
   log("Loading " + pl_json_path + " and searching for channel " + name, 2)
   channels = json.load(open(pl_json_path))
   log("channels loaded from json", 2)
-  log (channels.get(name.decode('utf-8')))
-  return channels.get(name.decode('utf-8'))
+  log (channels.get(name))
+  return channels.get(name)
