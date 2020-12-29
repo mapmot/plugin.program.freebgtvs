@@ -2,7 +2,7 @@
 <addon id="plugin.program.freebgtvs" name="Free BG TVs Playlist Generator" version="1.5.0" provider-name="harrygg">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
-    <import addon="script.module.garepobg" version="0.2.3"/>
+    <import addon="script.module.garepobg" version="0.2.0"/>
     <import addon="script.module.kodibgcommon" version="2.0.0"/>
   </requires>
   <extension point="xbmc.python.script" library="exec.py"/>  
